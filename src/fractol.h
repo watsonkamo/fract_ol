@@ -6,7 +6,7 @@
 /*   By: eshintan <eshintan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 03:11:33 by eshintan          #+#    #+#             */
-/*   Updated: 2024/03/01 02:26:17 by eshintan         ###   ########.fr       */
+/*   Updated: 2024/03/08 11:28:56 by eshintan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	ft_putstr_fd(char *s, int fd);
 size_t	ft_strlen(const char *str);
 void	draw_fractal(t_fractal *fractal);
 static void	malloc_error(void);
+
 # define WIDTH 800
 
 # define HEIGHT 800

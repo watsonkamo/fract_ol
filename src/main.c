@@ -6,7 +6,7 @@
 /*   By: eshintan <eshintan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 02:37:58 by eshintan          #+#    #+#             */
-/*   Updated: 2024/03/01 02:43:56 by eshintan         ###   ########.fr       */
+/*   Updated: 2024/03/08 12:50:34 by eshintan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,29 +41,29 @@ int	main(int ac, char **av)
 
 void	draw_fractal(t_fractal *fractal)
 {
-		fractal->mlx_start = mlx_init();
-		if (NULL == fractal->mlx_start)
-        {
-            malloc_error();
-        }
-		fractal->mlx_window = mlx_new_window(fractal->mlx_start, WIDTH, HEIGHT, "fractol");
-        if (NULL == fractal->mlx_window)
-        {
-            mlx_destroy_window(fractal->mlx_start, fractal->mlx_window);
-            free(fractal->mlx_start);
-            malloc_error();
-        }
-		fractal->img.img_ptr = mlx_new_image(fractal->mlx_start, WIDTH, HEIGHT);
-        if (NULL == fractal->img.img_ptr)
-        {
-            mlx_destroy_window(fractal->mlx_start, fractal->mlx_window);
-            //mlx_destroy_display(fractal->mlx_start);
-            free(fractal->mlx_start);
-            malloc_error();
-        }
-		fractal->img.addr = mlx_get_data_addr(fractal->img.img_ptr, &fractal->img.bits_per_pixel, &fractal->img.line_len, &fractal->img.endian);
-		mlx_put_image_to_window(fractal->mlx_start, fractal->mlx_window, fractal->img.img_ptr, 0, 0);
-		mlx_loop(fractal->mlx_start);
+	fractal->mlx_start = mlx_init();
+	if (NULL == fractal->mlx_start)
+	{
+		malloc_error();
+	}
+	fractal->mlx_window = mlx_new_window(fractal->mlx_start, WIDTH, HEIGHT, "fractol");
+	if (NULL == fractal->mlx_window)
+	{
+		mlx_destroy_window(fractal->mlx_start, fractal->mlx_window);
+		free(fractal->mlx_start);
+		malloc_error();
+	}
+	fractal->img.img_ptr = mlx_new_image(fractal->mlx_start, WIDTH, HEIGHT);
+	if (NULL == fractal->img.img_ptr)
+	{
+		mlx_destroy_window(fractal->mlx_start, fractal->mlx_window);
+		//mlx_destroy_display(fractal->mlx_start);
+		free(fractal->mlx_start);
+		malloc_error();
+	}
+	fractal->img.addr = mlx_get_data_addr(fractal->img.img_ptr, &fractal->img.bits_per_pixel, &fractal->img.line_len, &fractal->img.endian);
+	mlx_put_image_to_window(fractal->mlx_start, fractal->mlx_window, fractal->img.img_ptr, 0, 0);
+	mlx_loop(fractal->mlx_start);
 }
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
@@ -103,5 +103,27 @@ void	ft_putstr_fd(char *s, int fd)
 		return ;
 	write(fd, s, ft_strlen(s));
 }
+
 //rendering fractals
+void	fractal_render(t_fractal *fractal)
+{
+	int x;
+	int y;
+	
+	y = 0;
+	while (y < HEIGHT)
+	{
+		x = 0;
+		while (x < WIDTH)
+		{
+			fractal->img.addr[y * fractal->img.line_len + x * (fractal->img.bits_per_pixel / 8)] = 0;
+			fractal->img.addr[y * fractal->img.line_len + x * (fractal->img.bits_per_pixel / 8) + 1] = 0;
+			fractal->img.addr[y * fractal->img.line_len + x * (fractal->img.bits_per_pixel / 8) + 2] = 0;
+			fractal->img.addr[y * fractal->img.line_len + x * (fractal->img.bits_per_pixel / 8) + 3] = 0;
+			++x;
+		}
+		++y;
+	}
+
+}
 

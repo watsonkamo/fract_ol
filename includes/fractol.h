@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eshintan <eshintan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emma <emma@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 03:11:33 by eshintan          #+#    #+#             */
-/*   Updated: 2024/03/08 11:28:56 by eshintan         ###   ########.fr       */
+/*   Updated: 2024/04/21 00:32:19 by emma             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 # define FRACT_OL_H
 
 //# include "libft.h"
-# include "minilibx-linux/mlx.h"
+# include "mlx.h"
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <libc.h>
 
 //image
 //this is basically a pixels buffer

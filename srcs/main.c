@@ -3,68 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eshintan <eshintan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emma <emma@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 02:37:58 by eshintan          #+#    #+#             */
-/*   Updated: 2024/03/08 12:50:34 by eshintan         ###   ########.fr       */
+/*   Updated: 2024/04/21 00:38:02 by emma             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "fractol.h"
 // #include "libft/libft.h"
+
+#include <libc.h>
 #include "fractol.h"
-
-static void	malloc_error(void)
-{
-	ft_putstr_fd("Error\nMalloc error\n", 2);
-	exit(1);
-}
-
-int	main(int ac, char **av)
-{
-	t_fractal	fractal;
-
-	if (ac == 2 && !ft_strncmp(av[1], "mandelbrot", 10))
-	{
-		draw_fractal(&fractal);
-	}
-	else if (ac == 2 && !ft_strncmp(av[1], "julia", 5))
-	{
-		draw_fractal(&fractal);
-	}
-	else
-	{
-		ft_putstr_fd("Usage: ./fractol [mandelbrot/julia]\n", 2);
-		return (0);
-	}
-}
-
-void	draw_fractal(t_fractal *fractal)
-{
-	fractal->mlx_start = mlx_init();
-	if (NULL == fractal->mlx_start)
-	{
-		malloc_error();
-	}
-	fractal->mlx_window = mlx_new_window(fractal->mlx_start, WIDTH, HEIGHT, "fractol");
-	if (NULL == fractal->mlx_window)
-	{
-		mlx_destroy_window(fractal->mlx_start, fractal->mlx_window);
-		free(fractal->mlx_start);
-		malloc_error();
-	}
-	fractal->img.img_ptr = mlx_new_image(fractal->mlx_start, WIDTH, HEIGHT);
-	if (NULL == fractal->img.img_ptr)
-	{
-		mlx_destroy_window(fractal->mlx_start, fractal->mlx_window);
-		//mlx_destroy_display(fractal->mlx_start);
-		free(fractal->mlx_start);
-		malloc_error();
-	}
-	fractal->img.addr = mlx_get_data_addr(fractal->img.img_ptr, &fractal->img.bits_per_pixel, &fractal->img.line_len, &fractal->img.endian);
-	mlx_put_image_to_window(fractal->mlx_start, fractal->mlx_window, fractal->img.img_ptr, 0, 0);
-	mlx_loop(fractal->mlx_start);
-}
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
@@ -104,6 +53,41 @@ void	ft_putstr_fd(char *s, int fd)
 	write(fd, s, ft_strlen(s));
 }
 
+static void	malloc_error(void)
+{
+	ft_putstr_fd("Error\nMalloc error\n", 2);
+	exit(1);
+}
+
+
+void	draw_fractal(t_fractal *fractal)
+{
+	fractal->mlx_start = mlx_init();
+	if (NULL == fractal->mlx_start)
+	{
+		malloc_error();
+	}
+	fractal->mlx_window = mlx_new_window(fractal->mlx_start, WIDTH, HEIGHT, "fractol");
+	if (NULL == fractal->mlx_window)
+	{
+		mlx_destroy_window(fractal->mlx_start, fractal->mlx_window);
+		free(fractal->mlx_start);
+		malloc_error();
+	}
+	fractal->img.img_ptr = mlx_new_image(fractal->mlx_start, WIDTH, HEIGHT);
+	if (NULL == fractal->img.img_ptr)
+	{
+		mlx_destroy_window(fractal->mlx_start, fractal->mlx_window);
+		//mlx_destroy_display(fractal->mlx_start);
+		free(fractal->mlx_start);
+		malloc_error();
+	}
+	fractal->img.addr = mlx_get_data_addr(fractal->img.img_ptr, &fractal->img.bits_per_pixel, &fractal->img.line_len, &fractal->img.endian);
+	mlx_put_image_to_window(fractal->mlx_start, fractal->mlx_window, fractal->img.img_ptr, 0, 0);
+	mlx_loop(fractal->mlx_start);
+}
+
+
 //rendering fractals
 void	fractal_render(t_fractal *fractal)
 {
@@ -127,3 +111,21 @@ void	fractal_render(t_fractal *fractal)
 
 }
 
+int	main(int ac, char **av)
+{
+	t_fractal	fractal;
+
+	if (ac == 2 && !ft_strncmp(av[1], "mandelbrot", 10))
+	{
+		draw_fractal(&fractal);
+	}
+	else if (ac == 2 && !ft_strncmp(av[1], "julia", 5))
+	{
+		draw_fractal(&fractal);
+	}
+	else
+	{
+		ft_putstr_fd("Usage: ./fractol [mandelbrot/julia]\n", 2);
+		return (0);
+	}
+}

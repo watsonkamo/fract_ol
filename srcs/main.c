@@ -6,17 +6,11 @@
 /*   By: emma <emma@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 02:37:58 by eshintan          #+#    #+#             */
-/*   Updated: 2024/04/21 13:22:29 by emma             ###   ########.fr       */
+/*   Updated: 2024/04/21 19:53:32 by emma             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "libft/libft.h"
-
-#include <libc.h>
 #include "fractol.h"
-#include <math.h>
-
-#define MAX_ITER 100 // 最大反復回数
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
@@ -62,90 +56,66 @@ static void	malloc_error(void)
 	exit(1);
 }
 
-
-
-
-
-//rendering fractals
-// void	fractal_render(t_fractal *fractal)
-// {
-// 	int x;
-// 	int y;
-	
-// 	y = 0;
-// 	while (y < HEIGHT)
-// 	{
-// 		x = 0;
-// 		while (x < WIDTH)
-// 		{
-// 			fractal->img.addr[y * fractal->img.line_len + x * (fractal->img.bits_per_pixel / 8)] = 0;
-// 			fractal->img.addr[y * fractal->img.line_len + x * (fractal->img.bits_per_pixel / 8) + 1] = 0;
-// 			fractal->img.addr[y * fractal->img.line_len + x * (fractal->img.bits_per_pixel / 8) + 2] = 255;
-// 			fractal->img.addr[y * fractal->img.line_len + x * (fractal->img.bits_per_pixel / 8) + 3] = 0;
-// 			++x;
-// 		}
-// 		++y;
-// 	}
-
-// }
-
-
-#define JULIA_RE -0.7 // ジュリア集合の実数部
-#define JULIA_IM 0.27015 // ジュリア集合の虚数部
-
 int ft_fractal(double z_re, double z_im, double c_re, double c_im)
 {
-    int n = 0;
-    for (; n < MAX_ITER; ++n)
+    int n;
+
+	n = 0;
+    while (n < MAX_ITER)
     {
         double z_re2 = z_re*z_re, z_im2 = z_im*z_im;
         if (z_re2 + z_im2 > 4.0)
-            break; // 2を超えると発散するため、ループを抜ける
+            break; //2を超えると発散する→ループを抜ける
         z_im = 2*z_re*z_im + c_im;
         z_re = z_re2 - z_im2 + c_re;
+		++n;
     }
-    return n; // 反復回数に基づいて色を決定
+    return (n);//反復回数に基づいて色を決定
 }
 
 void fractal_render(t_fractal *fractal, int isJulia)
 {
-    int x, y;
-    double c_re, c_im;
+    int x;
+	int y;
+	double z_re;
+	double z_im;
 
-    for (y = 0; y < HEIGHT; ++y)
+    y = 0;
+    while (y < HEIGHT)
     {
-        for (x = 0; x < WIDTH; ++x)
+        x = 0;
+        while (x < WIDTH)
         {
-            // 座標を集合の範囲に変換
-            double z_re = (x - WIDTH/2.0)*4.0/WIDTH;
-            double z_im = (y - HEIGHT/2.0)*4.0/WIDTH;
-            
             if (isJulia)
             {
-                // ジュリア集合の場合
-                c_re = JULIA_RE;
-                c_im = JULIA_IM;
+                // ジュリア集合の場合、初期座標zは画面の各ピクセルに対応
+                z_re = (x - WIDTH/2.0) * 4.0 / WIDTH;
+                z_im = (y - HEIGHT/2.0) * 4.0 / HEIGHT;
+				//julia(引数)
             }
             else
             {
-                // マンデルブロ集合の場合
-                c_re = z_re;
-                c_im = z_im;
+                // マンデルブロ集合の場合、初期座標zは常に0
                 z_re = 0;
                 z_im = 0;
+                fractal->julia_re = (x - WIDTH/2.0) * 4.0 / WIDTH;
+                fractal->julia_im = (y - HEIGHT/2.0) * 4.0 / HEIGHT;
+				//mandelbrot(引数)
             }
-            // 集合に属するかを計算
-            int n = ft_fractal(z_re, z_im, c_re, c_im);
-            // 色を計算（ここでは単純化のためにnを直接使用）
+            // 集合に属するか計算
+            int n = ft_fractal(z_re, z_im, fractal->julia_re, fractal->julia_im);
+            // 色を計算。ここでは単純化のためにnを直接使用
             int color = (n % 255) * 0x010101;
             // ピクセルに色を設定
             *(int*)(fractal->img.addr + y * fractal->img.line_len + x * (fractal->img.bits_per_pixel / 8)) = color;
+            ++x;
         }
+        ++y;
     }
 }
 
 
-void	draw_fractal(t_fractal *fractal)
+void	draw_fractal(t_fractal *fractal, int isjulia)
 {
 	fractal->mlx_start = mlx_init();
 	if (NULL == fractal->mlx_start)
@@ -165,26 +135,26 @@ void	draw_fractal(t_fractal *fractal)
 		malloc_error();
 	}
 	fractal->img.addr = mlx_get_data_addr(fractal->img.img_ptr, &fractal->img.bits_per_pixel, &fractal->img.line_len, &fractal->img.endian);
-	fractal_render(fractal, 1);
+	fractal_render(fractal, isjulia);
 	mlx_put_image_to_window(fractal->mlx_start, fractal->mlx_window, fractal->img.img_ptr, 0, 0);
 	mlx_loop(fractal->mlx_start);
 }
 
 int	main(int ac, char **av)
 {
-	t_fractal	fractal;
+	t_fractal	fractal = {0};
 
 	if (ac == 2 && !ft_strncmp(av[1], "mandelbrot", 10))
+		draw_fractal(&fractal, 0);
+	else if (ac == 4 && !ft_strncmp(av[1], "julia", 5))
 	{
-		draw_fractal(&fractal);
-	}
-	else if (ac == 2 && !ft_strncmp(av[1], "julia", 5))
-	{
-		draw_fractal(&fractal);
+		fractal.julia_re = atof(av[2]);
+		fractal.julia_im = atof(av[3]);
+		draw_fractal(&fractal, 1);
 	}
 	else
 	{
-		ft_putstr_fd("Usage: ./fractol [mandelbrot/julia]\n", 2);
+		ft_putstr_fd("Usage: ./fractol [mandelbrot/julia] [julia_re julia_im]\n", 2);
 		return (0);
 	}
 }

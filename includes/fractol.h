@@ -6,7 +6,7 @@
 /*   By: emma <emma@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 03:11:33 by eshintan          #+#    #+#             */
-/*   Updated: 2024/04/21 03:40:02 by emma             ###   ########.fr       */
+/*   Updated: 2024/04/21 19:48:47 by emma             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,14 @@ typedef struct s_fractal
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	ft_putstr_fd(char *s, int fd);
 size_t	ft_strlen(const char *str);
-void	draw_fractal(t_fractal *fractal);
+void	draw_fractal(t_fractal *fractal, int isjulia);
 static void	malloc_error(void);
 
-# define WIDTH 800
+# define WIDTH 700
 
-# define HEIGHT 800
+# define HEIGHT 700
 
-# define MAX_ITER 100
+# define MAX_ITER 100//最大反復回数
 
 # define ZOOM 1.1
 

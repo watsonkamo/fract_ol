@@ -6,7 +6,7 @@
 /*   By: emma <emma@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 02:37:58 by eshintan          #+#    #+#             */
-/*   Updated: 2024/04/21 00:38:02 by emma             ###   ########.fr       */
+/*   Updated: 2024/04/21 13:22:29 by emma             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 #include <libc.h>
 #include "fractol.h"
+#include <math.h>
+
+#define MAX_ITER 100 // 最大反復回数
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
@@ -60,13 +63,93 @@ static void	malloc_error(void)
 }
 
 
+
+
+
+//rendering fractals
+// void	fractal_render(t_fractal *fractal)
+// {
+// 	int x;
+// 	int y;
+	
+// 	y = 0;
+// 	while (y < HEIGHT)
+// 	{
+// 		x = 0;
+// 		while (x < WIDTH)
+// 		{
+// 			fractal->img.addr[y * fractal->img.line_len + x * (fractal->img.bits_per_pixel / 8)] = 0;
+// 			fractal->img.addr[y * fractal->img.line_len + x * (fractal->img.bits_per_pixel / 8) + 1] = 0;
+// 			fractal->img.addr[y * fractal->img.line_len + x * (fractal->img.bits_per_pixel / 8) + 2] = 255;
+// 			fractal->img.addr[y * fractal->img.line_len + x * (fractal->img.bits_per_pixel / 8) + 3] = 0;
+// 			++x;
+// 		}
+// 		++y;
+// 	}
+
+// }
+
+
+#define JULIA_RE -0.7 // ジュリア集合の実数部
+#define JULIA_IM 0.27015 // ジュリア集合の虚数部
+
+int ft_fractal(double z_re, double z_im, double c_re, double c_im)
+{
+    int n = 0;
+    for (; n < MAX_ITER; ++n)
+    {
+        double z_re2 = z_re*z_re, z_im2 = z_im*z_im;
+        if (z_re2 + z_im2 > 4.0)
+            break; // 2を超えると発散するため、ループを抜ける
+        z_im = 2*z_re*z_im + c_im;
+        z_re = z_re2 - z_im2 + c_re;
+    }
+    return n; // 反復回数に基づいて色を決定
+}
+
+void fractal_render(t_fractal *fractal, int isJulia)
+{
+    int x, y;
+    double c_re, c_im;
+
+    for (y = 0; y < HEIGHT; ++y)
+    {
+        for (x = 0; x < WIDTH; ++x)
+        {
+            // 座標を集合の範囲に変換
+            double z_re = (x - WIDTH/2.0)*4.0/WIDTH;
+            double z_im = (y - HEIGHT/2.0)*4.0/WIDTH;
+            
+            if (isJulia)
+            {
+                // ジュリア集合の場合
+                c_re = JULIA_RE;
+                c_im = JULIA_IM;
+            }
+            else
+            {
+                // マンデルブロ集合の場合
+                c_re = z_re;
+                c_im = z_im;
+                z_re = 0;
+                z_im = 0;
+            }
+            // 集合に属するかを計算
+            int n = ft_fractal(z_re, z_im, c_re, c_im);
+            // 色を計算（ここでは単純化のためにnを直接使用）
+            int color = (n % 255) * 0x010101;
+            // ピクセルに色を設定
+            *(int*)(fractal->img.addr + y * fractal->img.line_len + x * (fractal->img.bits_per_pixel / 8)) = color;
+        }
+    }
+}
+
+
 void	draw_fractal(t_fractal *fractal)
 {
 	fractal->mlx_start = mlx_init();
 	if (NULL == fractal->mlx_start)
-	{
 		malloc_error();
-	}
 	fractal->mlx_window = mlx_new_window(fractal->mlx_start, WIDTH, HEIGHT, "fractol");
 	if (NULL == fractal->mlx_window)
 	{
@@ -78,37 +161,13 @@ void	draw_fractal(t_fractal *fractal)
 	if (NULL == fractal->img.img_ptr)
 	{
 		mlx_destroy_window(fractal->mlx_start, fractal->mlx_window);
-		//mlx_destroy_display(fractal->mlx_start);
 		free(fractal->mlx_start);
 		malloc_error();
 	}
 	fractal->img.addr = mlx_get_data_addr(fractal->img.img_ptr, &fractal->img.bits_per_pixel, &fractal->img.line_len, &fractal->img.endian);
+	fractal_render(fractal, 1);
 	mlx_put_image_to_window(fractal->mlx_start, fractal->mlx_window, fractal->img.img_ptr, 0, 0);
 	mlx_loop(fractal->mlx_start);
-}
-
-
-//rendering fractals
-void	fractal_render(t_fractal *fractal)
-{
-	int x;
-	int y;
-	
-	y = 0;
-	while (y < HEIGHT)
-	{
-		x = 0;
-		while (x < WIDTH)
-		{
-			fractal->img.addr[y * fractal->img.line_len + x * (fractal->img.bits_per_pixel / 8)] = 0;
-			fractal->img.addr[y * fractal->img.line_len + x * (fractal->img.bits_per_pixel / 8) + 1] = 0;
-			fractal->img.addr[y * fractal->img.line_len + x * (fractal->img.bits_per_pixel / 8) + 2] = 0;
-			fractal->img.addr[y * fractal->img.line_len + x * (fractal->img.bits_per_pixel / 8) + 3] = 0;
-			++x;
-		}
-		++y;
-	}
-
 }
 
 int	main(int ac, char **av)

@@ -6,7 +6,7 @@
 /*   By: emma <emma@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 03:11:33 by eshintan          #+#    #+#             */
-/*   Updated: 2024/04/21 00:32:19 by emma             ###   ########.fr       */
+/*   Updated: 2024/04/21 03:40:02 by emma             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_image
     int     bits_per_pixel;//number of bits needed to represent a pixel color
     int     line_len;//size of a line in bytes
     int     endian;//endianness of the image
+
 }   t_image;
 
 //fractal
@@ -46,6 +47,8 @@ typedef struct s_fractal
     //image
     t_image img;
     //hooks member variables
+    double  julia_re;
+    double  julia_im;
 }               t_fractal;
 
 int		ft_strncmp(const char *s1, const char *s2, size_t n);

@@ -6,7 +6,7 @@
 /*   By: emma <emma@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 03:11:33 by eshintan          #+#    #+#             */
-/*   Updated: 2024/04/21 19:48:47 by emma             ###   ########.fr       */
+/*   Updated: 2024/04/21 21:07:10 by emma             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,28 +67,9 @@ static void	malloc_error(void);
 
 # define MOVE 0.1
 
-# define RED 0x00FF0000
-
-# define GREEN 0x0000FF00
-
-# define BLUE 0x000000FF
-
 # define WHITE 0x00FFFFFF
 
 # define BLACK 0x00000000
 
-# define YELLOW 0x00FFFF00
-
-# define PURPLE 0x00FF00FF
-
-# define CYAN 0x0000FFFF
-
-# define ORANGE 0x00FFA500
-
-# define PINK 0x00FFC0CB
-
-# define BROWN 0x00A52A2A
-
-# define GREY 0x00808080
 
 #endif

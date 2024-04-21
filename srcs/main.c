@@ -6,7 +6,7 @@
 /*   By: emma <emma@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 02:37:58 by eshintan          #+#    #+#             */
-/*   Updated: 2024/04/21 19:53:32 by emma             ###   ########.fr       */
+/*   Updated: 2024/04/21 21:13:59 by emma             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,22 @@ void fractal_render(t_fractal *fractal, int isJulia)
     }
 }
 
+int mouse_zoom_hook(int mouse, int x, int y, t_fractal *fractal)
+{
+	//zoom_in_function
+	if (mouse == 4)
+	{
+		fractal->julia_re += (x - WIDTH / 2.0) * 4.0 / WIDTH * (ZOOM - 1);
+		fractal->julia_im += (y - HEIGHT / 2.0) * 4.0 / HEIGHT * (ZOOM - 1);
+	}
+	//zoom_out_function
+	else if (mouse == 5)
+	{
+		fractal->julia_re -= (x - WIDTH / 2.0) * 4.0 / WIDTH * (ZOOM - 1);
+		fractal->julia_im -= (y - HEIGHT / 2.0) * 4.0 / HEIGHT * (ZOOM - 1);
+	}
+	return(0);
+}
 
 void	draw_fractal(t_fractal *fractal, int isjulia)
 {
@@ -137,8 +153,11 @@ void	draw_fractal(t_fractal *fractal, int isjulia)
 	fractal->img.addr = mlx_get_data_addr(fractal->img.img_ptr, &fractal->img.bits_per_pixel, &fractal->img.line_len, &fractal->img.endian);
 	fractal_render(fractal, isjulia);
 	mlx_put_image_to_window(fractal->mlx_start, fractal->mlx_window, fractal->img.img_ptr, 0, 0);
+	mlx_mouse_hook(fractal->mlx_window, mouse_zoom_hook, fractal);//←add line
 	mlx_loop(fractal->mlx_start);
 }
+
+
 
 int	main(int ac, char **av)
 {
@@ -148,6 +167,11 @@ int	main(int ac, char **av)
 		draw_fractal(&fractal, 0);
 	else if (ac == 4 && !ft_strncmp(av[1], "julia", 5))
 	{
+		if (atof(av[2]) < -2.0 || atof(av[2]) > 2.0 || atof(av[3]) < -2.0 || atof(av[3]) > 2.0)
+		{
+			ft_putstr_fd("Error\nInvalid julia set\n", 2);
+			return (0);
+		}
 		fractal.julia_re = atof(av[2]);
 		fractal.julia_im = atof(av[3]);
 		draw_fractal(&fractal, 1);

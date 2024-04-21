@@ -6,7 +6,7 @@
 /*   By: emma <emma@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 02:37:58 by eshintan          #+#    #+#             */
-/*   Updated: 2024/04/21 21:13:59 by emma             ###   ########.fr       */
+/*   Updated: 2024/04/21 21:36:14 by emma             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,29 @@ static void	malloc_error(void)
 {
 	ft_putstr_fd("Error\nMalloc error\n", 2);
 	exit(1);
+}
+
+double	ft_atof(const char *str)
+{
+	double	res;
+	double	res2;
+	char	*c;
+	int		len;
+
+	c = (char *)str;
+	res = (double)ft_atoi(c);
+	while (*c && *c != '.')
+		c++;
+	if (*c == '.')
+		c++;
+	res2 = (double)ft_atoi(c);
+	len = ft_strlen(c);
+	while (len--)
+		res2 /= 10;
+	if (res >= 0)
+		return (res + res2);
+	else
+		return (res + -res2);
 }
 
 int ft_fractal(double z_re, double z_im, double c_re, double c_im)
@@ -167,13 +190,13 @@ int	main(int ac, char **av)
 		draw_fractal(&fractal, 0);
 	else if (ac == 4 && !ft_strncmp(av[1], "julia", 5))
 	{
-		if (atof(av[2]) < -2.0 || atof(av[2]) > 2.0 || atof(av[3]) < -2.0 || atof(av[3]) > 2.0)
+		if (ft_atof(av[2]) < -2.0 || ft_atof(av[2]) > 2.0 || ft_atof(av[3]) < -2.0 || ft_atof(av[3]) > 2.0)
 		{
 			ft_putstr_fd("Error\nInvalid julia set\n", 2);
 			return (0);
 		}
-		fractal.julia_re = atof(av[2]);
-		fractal.julia_im = atof(av[3]);
+		fractal.julia_re = ft_atof(av[2]);
+		fractal.julia_im = ft_atof(av[3]);
 		draw_fractal(&fractal, 1);
 	}
 	else

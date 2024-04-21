@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emma <emma@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: eshintan <eshintan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 03:11:33 by eshintan          #+#    #+#             */
-/*   Updated: 2024/04/21 21:07:10 by emma             ###   ########.fr       */
+/*   Updated: 2024/04/21 23:49:37 by eshintan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_fractal
     //hooks member variables
     double  julia_re;
     double  julia_im;
+    double  zoom;
 }               t_fractal;
 
 int		ft_strncmp(const char *s1, const char *s2, size_t n);

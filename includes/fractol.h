@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eshintan <eshintan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emma <emma@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 03:11:33 by eshintan          #+#    #+#             */
-/*   Updated: 2024/04/21 23:49:37 by eshintan         ###   ########.fr       */
+/*   Updated: 2024/04/27 15:06:35 by emma             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,13 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	ft_putstr_fd(char *s, int fd);
 size_t	ft_strlen(const char *str);
 void	draw_fractal(t_fractal *fractal, int isjulia);
-static void	malloc_error(void);
+void	malloc_error(void);
+void    mouse_zoom_in(t_fractal *fractal);
+void    mouse_zoom_out(t_fractal *fractal);
+int     mouse_zoom_hook(int mouse, int x, int y, t_fractal *fractal);
+int     close_esc_buttun(int key, t_fractal *fractal);
+int     close_window_buttun(t_fractal *fractal);
+void    fractal_init(t_fractal *fractal);
 
 # define WIDTH 700
 

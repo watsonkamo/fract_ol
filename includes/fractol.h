@@ -6,7 +6,7 @@
 /*   By: emma <emma@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 03:11:33 by eshintan          #+#    #+#             */
-/*   Updated: 2024/04/28 12:44:54 by emma             ###   ########.fr       */
+/*   Updated: 2024/04/28 12:50:10 by emma             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void    fractal_init(t_fractal *fractal);
 
 # define HEIGHT 700
 
-# define MAX_ITER 100//最大反復回数
+# define MAX_ITER 1000//最大反復回数
 
 # define ZOOM 1.1
 

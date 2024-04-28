@@ -6,7 +6,7 @@
 /*   By: emma <emma@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 04:00:10 by emma              #+#    #+#             */
-/*   Updated: 2024/04/28 12:41:29 by emma             ###   ########.fr       */
+/*   Updated: 2024/04/28 13:25:20 by emma             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,26 @@ int ft_fractal(double z_re, double z_im, double c_re, double c_im)
 	return (n);//反復回数に基づいて色を決定
 }
 
+int define_color(int n)
+{
+	int max_iter = 255; //最大繰り返し回数
+	double t = (double)n / (double)max_iter; //nを正規化
+	//RGB成分を計算。ここでは例として線形グラデーションを使用
+	int r = (int)(9 * (1 - t) * t * t * t * 255);
+	int g = (int)(15 * (1 - t) * (1 - t) * t * t * 255);
+	int b = (int)(8.5 * (1 - t) * (1 - t) * (1 - t) * t * 255);
+	//RGB値を組み合わせて色を作成
+	int color = (r << 16) | (g << 8) | b;
+	return (color);
+}
+
 void fractal_render(t_fractal *fractal, int isjulia)
 {
 	int x;
 	int y;
 	double z_re;
 	double z_im;
+	int n;
 
 	y = 0;
 	while (y < HEIGHT)
@@ -46,26 +60,19 @@ void fractal_render(t_fractal *fractal, int isjulia)
 		{
 			if (isjulia == 1)
 			{
-				// ジュリア集合の場合、初期座標zは画面の各ピクセルに対応
-				z_re = (x - WIDTH/2.0) * 4.0 / WIDTH * fractal->zoom;
+				z_re = (x - WIDTH/2.0) * 4.0 / WIDTH * fractal->zoom;// ジュリア集合の場合、初期座標zは画面の各ピクセルに対応
 				z_im = (y - HEIGHT/2.0) * 4.0 / HEIGHT * fractal->zoom;
-				//julia(引数)
-				//fractal->julia_re = (x - WIDTH/2.0) * 4.0 / WIDTH * fractal->zoom;
-				//fractal->julia_im = (y - HEIGHT/2.0) * 4.0 / HEIGHT * fractal->zoom;
 			}
 			else
 			{
-				// マンデルブロ集合の場合、初期座標zは常に0
-				z_re = 0;
+				z_re = 0;// マンデルブロ集合の場合、初期座標zは常に0
 				z_im = 0;
 				fractal->julia_re = (x - WIDTH/2.0) * 4.0 / WIDTH * fractal->zoom;
 				fractal->julia_im = (y - HEIGHT/2.0) * 4.0 / HEIGHT * fractal->zoom;
-				//mandelbrot(引数)
 			}
-			// 集合に属するか計算
-			int n = ft_fractal(z_re, z_im, fractal->julia_re, fractal->julia_im);
-			// 色を計算。ここでは単純化のためにnを直接使用
-			int color = (n % 255) * 0x010101;
+			n = ft_fractal(z_re, z_im, fractal->julia_re, fractal->julia_im);// 集合に属するか計算
+			// 色を計算
+			int color = define_color(n);
 			// ピクセルに色を設定
 			*(int*)(fractal->img.addr + y * fractal->img.line_len + x * (fractal->img.bits_per_pixel / 8)) = color;
 			++x;

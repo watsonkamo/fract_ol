@@ -6,7 +6,7 @@
 /*   By: emma <emma@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 03:11:33 by eshintan          #+#    #+#             */
-/*   Updated: 2024/04/27 15:06:35 by emma             ###   ########.fr       */
+/*   Updated: 2024/04/28 12:44:54 by emma             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,14 @@ typedef struct s_fractal
     double  julia_re;
     double  julia_im;
     double  zoom;
+    int     isjulia;
 }               t_fractal;
 
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	ft_putstr_fd(char *s, int fd);
 size_t	ft_strlen(const char *str);
+int     ft_fractal(double z_re, double z_im, double c_re, double c_im);
+void    fractal_render(t_fractal *fractal, int isjulia);
 void	draw_fractal(t_fractal *fractal, int isjulia);
 void	malloc_error(void);
 void    mouse_zoom_in(t_fractal *fractal);

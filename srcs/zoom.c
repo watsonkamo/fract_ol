@@ -6,7 +6,7 @@
 /*   By: emma <emma@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 04:01:11 by emma              #+#    #+#             */
-/*   Updated: 2024/04/27 15:09:04 by emma             ###   ########.fr       */
+/*   Updated: 2024/04/28 12:44:40 by emma             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,21 @@
 
 void mouse_zoom_in(t_fractal *fractal)
 {
+	//(void)isjulia;
 	printf("zoom:%f\n", fractal->zoom);
 	if (fractal->zoom > 0.1)
 		fractal->zoom *= 0.9;
 	mlx_destroy_image(fractal->mlx_start, fractal->img.img_ptr);
-	draw_fractal(fractal, 1);	
-
+	draw_fractal(fractal, fractal->isjulia);
 }
 
 void mouse_zoom_out(t_fractal *fractal)
 {
+	//(void)isjulia;
 	printf("zoom:%f\n", fractal->zoom);
 	fractal->zoom *= 1.1;
 	mlx_destroy_image(fractal->mlx_start, fractal->img.img_ptr);
-	draw_fractal(fractal, 1);
+	draw_fractal(fractal, fractal->isjulia);
 }
 
 int mouse_zoom_hook(int mouse, int x, int y, t_fractal *fractal)

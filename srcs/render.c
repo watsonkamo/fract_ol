@@ -6,7 +6,7 @@
 /*   By: emma <emma@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 04:00:10 by emma              #+#    #+#             */
-/*   Updated: 2024/04/28 13:25:20 by emma             ###   ########.fr       */
+/*   Updated: 2024/04/29 01:26:30 by emma             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,51 @@ int ft_fractal(double z_re, double z_im, double c_re, double c_im)
 	return (n);//反復回数に基づいて色を決定
 }
 
+// int define_color(int n)
+// {
+// 	int max_iter = 255; //最大繰り返し回数
+// 	double t = (double)n / (double)max_iter; //nを正規化
+// 	//RGB成分を計算。ここでは例として線形グラデーションを使用
+// 	int r = (int)(9 * (1 - t) * t * t * t * 255);
+// 	int g = (int)(15 * (1 - t) * (1 - t) * t * t * 255);
+// 	int b = (int)(8.5 * (1 - t) * (1 - t) * (1 - t) * t * 255);
+// 	//RGB値を組み合わせて色を作成
+// 	int color = (r << 16) | (g << 8) | b;
+// 	return (color);
+// }
+
+// int define_color(int n)
+// {
+//     int max_iter = 255; // 最大繰り返し回数
+//     if (n == max_iter)
+//         return (0x000000); // 暗い青色で塗る
+
+//     double t = (double)n / (double)max_iter; // nを正規化
+//     // RGB成分を計算。ここでは例として線形グラデーションを使用
+//     int r = (int)(9 * (1 - t) * t * t * t * 255);
+//     int g = (int)(15 * (1 - t) * (1 - t) * t * t * 255);
+//     int b = (int)(8.5 * (1 - t) * (1 - t) * (1 - t) * t * 255);
+//     // RGB値を組み合わせて色を作成
+//     int color = (r << 16) | (g << 8) | b;
+//     return (color);
+// }
+
 int define_color(int n)
 {
-	int max_iter = 255; //最大繰り返し回数
-	double t = (double)n / (double)max_iter; //nを正規化
-	//RGB成分を計算。ここでは例として線形グラデーションを使用
-	int r = (int)(9 * (1 - t) * t * t * t * 255);
-	int g = (int)(15 * (1 - t) * (1 - t) * t * t * 255);
-	int b = (int)(8.5 * (1 - t) * (1 - t) * (1 - t) * t * 255);
-	//RGB値を組み合わせて色を作成
-	int color = (r << 16) | (g << 8) | b;
-	return (color);
+    if (n == MAX_ITER)
+        return 0x000000; // 黒：最大反復回数に達した場合
+	double t = (double)n / (double)MAX_ITER;
+    // int red = (n * 9) % 255;
+    // int green = (n * 15) % 255;
+    // int blue = (n * 20) % 255;
+	int red = (int)(9 * (1 - t) * t * t * t * 255);
+	int green = (int)(15 * (1 - t) * (1 - t) * t * t * 255);
+	int blue = (int)(9 * (1 - t) * (1 - t) * (1 - t) * t * 255);
+
+    return ((red << 16) | (green << 8) | blue); // RGB色を整数値にエンコード
 }
+
+
 
 void fractal_render(t_fractal *fractal, int isjulia)
 {
@@ -73,6 +106,7 @@ void fractal_render(t_fractal *fractal, int isjulia)
 			n = ft_fractal(z_re, z_im, fractal->julia_re, fractal->julia_im);// 集合に属するか計算
 			// 色を計算
 			int color = define_color(n);
+			//int color = (n % 250) * 0x010101;
 			// ピクセルに色を設定
 			*(int*)(fractal->img.addr + y * fractal->img.line_len + x * (fractal->img.bits_per_pixel / 8)) = color;
 			++x;

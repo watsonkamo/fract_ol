@@ -6,7 +6,7 @@
 /*   By: emma <emma@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 03:11:33 by eshintan          #+#    #+#             */
-/*   Updated: 2024/04/28 12:50:10 by emma             ###   ########.fr       */
+/*   Updated: 2024/04/29 01:24:01 by emma             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ typedef struct s_fractal
     double  julia_im;
     double  zoom;
     int     isjulia;
+    double  c_re;
+    double  c_im;
 }               t_fractal;
 
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -71,7 +73,7 @@ void    fractal_init(t_fractal *fractal);
 
 # define HEIGHT 700
 
-# define MAX_ITER 1000//最大反復回数
+# define MAX_ITER 255//最大反復回数
 
 # define ZOOM 1.1
 
@@ -80,6 +82,8 @@ void    fractal_init(t_fractal *fractal);
 # define WHITE 0x00FFFFFF
 
 # define BLACK 0x00000000
+
+# define BLUE 0x000000FF
 
 
 #endif

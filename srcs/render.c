@@ -6,7 +6,7 @@
 /*   By: emma <emma@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 04:00:10 by emma              #+#    #+#             */
-/*   Updated: 2024/04/29 01:26:30 by emma             ###   ########.fr       */
+/*   Updated: 2024/05/01 16:59:16 by emma             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,35 +30,6 @@ int ft_fractal(double z_re, double z_im, double c_re, double c_im)
 	}
 	return (n);//反復回数に基づいて色を決定
 }
-
-// int define_color(int n)
-// {
-// 	int max_iter = 255; //最大繰り返し回数
-// 	double t = (double)n / (double)max_iter; //nを正規化
-// 	//RGB成分を計算。ここでは例として線形グラデーションを使用
-// 	int r = (int)(9 * (1 - t) * t * t * t * 255);
-// 	int g = (int)(15 * (1 - t) * (1 - t) * t * t * 255);
-// 	int b = (int)(8.5 * (1 - t) * (1 - t) * (1 - t) * t * 255);
-// 	//RGB値を組み合わせて色を作成
-// 	int color = (r << 16) | (g << 8) | b;
-// 	return (color);
-// }
-
-// int define_color(int n)
-// {
-//     int max_iter = 255; // 最大繰り返し回数
-//     if (n == max_iter)
-//         return (0x000000); // 暗い青色で塗る
-
-//     double t = (double)n / (double)max_iter; // nを正規化
-//     // RGB成分を計算。ここでは例として線形グラデーションを使用
-//     int r = (int)(9 * (1 - t) * t * t * t * 255);
-//     int g = (int)(15 * (1 - t) * (1 - t) * t * t * 255);
-//     int b = (int)(8.5 * (1 - t) * (1 - t) * (1 - t) * t * 255);
-//     // RGB値を組み合わせて色を作成
-//     int color = (r << 16) | (g << 8) | b;
-//     return (color);
-// }
 
 int define_color(int n)
 {

@@ -6,7 +6,7 @@
 /*   By: emma <emma@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 03:11:33 by eshintan          #+#    #+#             */
-/*   Updated: 2024/04/29 01:24:01 by emma             ###   ########.fr       */
+/*   Updated: 2024/05/01 17:01:09 by emma             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,9 @@ int     mouse_zoom_hook(int mouse, int x, int y, t_fractal *fractal);
 int     close_esc_buttun(int key, t_fractal *fractal);
 int     close_window_buttun(t_fractal *fractal);
 void    fractal_init(t_fractal *fractal);
+int valid_arg(int argc, char **argv);
+int is_double(char *str);
+int ft_isdigit(int c);
 
 # define WIDTH 700
 

@@ -6,11 +6,16 @@
 /*   By: emma <emma@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 03:57:46 by emma              #+#    #+#             */
-/*   Updated: 2024/04/27 21:24:42 by emma             ###   ########.fr       */
+/*   Updated: 2024/05/01 16:56:31 by emma             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+
+int ft_isdigit(int c)
+{
+	return ('0' <= c && c <= '9');
+}
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {

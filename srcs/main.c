@@ -6,7 +6,7 @@
 /*   By: emma <emma@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 02:37:58 by eshintan          #+#    #+#             */
-/*   Updated: 2024/05/06 01:00:08 by emma             ###   ########.fr       */
+/*   Updated: 2024/05/06 01:35:55 by emma             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@ int is_double(char *str)
 
 	i = 0;
 	dot = 0;
+	if (str[i] == '\0')
+		return (0);
+	if ((str[i] == '.') && (str[i + 1] == '\0'))
+		return (0);
 	if (str[i] == '-' || str[i] == '+')
 	{
 		if (!ft_isdigit(str[i + 1]))
@@ -43,7 +47,7 @@ int valid_arg(int argc, char **argv)
 {
 	if (argc == 2 && !ft_memcmp(argv[1], "mandelbrot", 10))
 		return (1);
-	if (argc == 4 && !ft_memcmp(argv[1], "julia", 5) && is_double(argv[2]) && is_double(argv[3]))
+	if (argc == 4 && !ft_memcmp(argv[1], "julia", 5) && (is_double(argv[2])) && (is_double(argv[3])))
 		return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: emma <emma@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 02:37:58 by eshintan          #+#    #+#             */
-/*   Updated: 2024/05/01 17:25:13 by emma             ###   ########.fr       */
+/*   Updated: 2024/05/06 01:00:08 by emma             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ int is_double(char *str)
 
 int valid_arg(int argc, char **argv)
 {
-	if (argc == 2 && !ft_strncmp(argv[1], "mandelbrot", 10))
+	if (argc == 2 && !ft_memcmp(argv[1], "mandelbrot", 10))
 		return (1);
-	if (argc == 4 && !ft_strncmp(argv[1], "julia", 5) && is_double(argv[2]) && is_double(argv[3]))
+	if (argc == 4 && !ft_memcmp(argv[1], "julia", 5) && is_double(argv[2]) && is_double(argv[3]))
 		return (1);
 	return (0);
 }
@@ -66,12 +66,12 @@ int	main(int ac, char **av)
 		ft_putstr_fd("Usage: arg error!\n", 2);
 		return (0);
 	}
-	if (ac == 2 && !ft_strncmp(av[1], "mandelbrot", 10))
+	if (ac == 2 && !ft_memcmp(av[1], "mandelbrot", 11))
 	{
 		fractal_init(&fractal);
 		draw_fractal(&fractal, 0);
 	}
-	else if (ac == 4 && !ft_strncmp(av[1], "julia", 5))
+	else if (ac == 4 && !ft_memcmp(av[1], "julia", 6))
 	{
 		if (atof(av[2]) < -2.0 || atof(av[2]) > 2.0 || atof(av[3]) < -2.0 || atof(av[3]) > 2.0)
 		{

@@ -6,7 +6,7 @@
 /*   By: emma <emma@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 03:11:33 by eshintan          #+#    #+#             */
-/*   Updated: 2024/05/01 17:01:09 by emma             ###   ########.fr       */
+/*   Updated: 2024/05/06 00:43:45 by emma             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void    fractal_init(t_fractal *fractal);
 int valid_arg(int argc, char **argv);
 int is_double(char *str);
 int ft_isdigit(int c);
+int	ft_memcmp(const void *s1, const void *s2, size_t n);
 
 # define WIDTH 700
 

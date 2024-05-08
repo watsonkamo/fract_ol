@@ -6,7 +6,7 @@
 /*   By: emma <emma@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 02:37:58 by eshintan          #+#    #+#             */
-/*   Updated: 2024/05/06 01:35:55 by emma             ###   ########.fr       */
+/*   Updated: 2024/05/08 15:12:37 by emma             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,16 @@ int is_double(char *str)
 			return (0);
 		i++;
 	}
+	if (str[i] == '.')
+		return (0);
 	while (str[i])
 	{
 		if (str[i] == '.')
+		{
+			if (!ft_isdigit(str[i + 1]))
+				return (0);
 			dot++;
+		}
 		if (!ft_isdigit(str[i]) && str[i] != '.')
 			return (0);
 		i++;
@@ -67,7 +73,7 @@ int	main(int ac, char **av)
 
 	if (!valid_arg(ac, av))
 	{
-		ft_putstr_fd("Usage: arg error!\n", 2);
+		ft_putstr_fd("Usage: error!\n", 2);
 		return (0);
 	}
 	if (ac == 2 && !ft_memcmp(av[1], "mandelbrot", 11))

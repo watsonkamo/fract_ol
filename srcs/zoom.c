@@ -31,8 +31,8 @@ void	mouse_zoom_out(t_fractal *fractal)
 
 int	mouse_zoom_hook(int mouse, int x, int y, t_fractal *fractal)
 {
-	(void) x;
-	(void) y;
+	(void)x;
+	(void)y;
 	if (mouse == 4)
 		mouse_zoom_in(fractal);
 	if (mouse == 5)

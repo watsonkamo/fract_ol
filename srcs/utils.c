@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emma <emma@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: eshintan <eshintan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 03:57:46 by emma              #+#    #+#             */
-/*   Updated: 2024/05/06 00:44:01 by emma             ###   ########.fr       */
+/*   Updated: 2024/06/13 21:31:17 by eshintan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-int ft_isdigit(int c)
+int	ft_isdigit(int c)
 {
 	return ('0' <= c && c <= '9');
 }
@@ -59,26 +59,3 @@ void	malloc_error(void)
 	ft_putstr_fd("Error\nMalloc error\n", 2);
 	exit(1);
 }
-
-// double	atof(const char *str)
-// {
-// 	double	res;
-// 	double	res2;
-// 	char	*c;
-// 	int		len;
-
-// 	c = (char *)str;
-// 	res = (double)ft_atoi(c);
-// 	while (*c && *c != '.')
-// 		c++;
-// 	if (*c == '.')
-// 		c++;
-// 	res2 = (double)ft_atoi(c);
-// 	len = ft_strlen(c);
-// 	while (len--)
-// 		res2 /= 10;
-// 	if (res >= 0)
-// 		return (res + res2);
-// 	else
-// 		return (res + -res2);
-// }

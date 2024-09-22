@@ -24,7 +24,7 @@ int	ft_fractal(double z_re, double z_im, double c_re, double c_im)
 		z_re2 = z_re * z_re;
 		z_im2 = z_im * z_im;
 		if (z_re2 + z_im2 > 4.0)
-			break;
+			break ;
 		z_im = 2 * z_re * z_im + c_im;
 		z_re = z_re2 - z_im2 + c_re;
 		++n;
@@ -54,6 +54,8 @@ void	fractal_render(t_fractal *fractal, int isjulia)
 	double	z_im;
 	int		n;
 	int		color;
+	double	julia_re;
+	double	julia_im;
 
 	y = 0;
 	while (y < HEIGHT)
@@ -70,10 +72,10 @@ void	fractal_render(t_fractal *fractal, int isjulia)
 			{
 				z_re = 0;
 				z_im = 0;
-				fractal->julia_re = (x - WIDTH / 2.0) * 4.0 / WIDTH * fractal->zoom;
-				fractal->julia_im = (y - HEIGHT / 2.0) * 4.0 / HEIGHT * fractal->zoom;
+				julia_re = (x - WIDTH / 2.0) * 4.0 / WIDTH * fractal->zoom;
+				julia_im = (y - HEIGHT / 2.0) * 4.0 / HEIGHT * fractal->zoom;
 			}
-			n = ft_fractal(z_re, z_im, fractal->julia_re, fractal->julia_im);
+			n = ft_fractal(z_re, z_im, julia_re, julia_im);
 			color = define_color(n);
 			*(int *)(fractal->img.addr + y * fractal->img.line_len + x * (fractal->img.bits_per_pixel / 8)) = color;
 			++x;
@@ -98,9 +100,12 @@ void	draw_fractal(t_fractal *fractal, int isjulia)
 		free(fractal->mlx_start);
 		malloc_error();
 	}
-	fractal->img.addr = mlx_get_data_addr(fractal->img.img_ptr, &fractal->img.bits_per_pixel, &fractal->img.line_len, &fractal->img.endian);
+	fractal->img.addr = mlx_get_data_addr(fractal->img.img_ptr,
+		&fractal->img.bits_per_pixel, &fractal->img.line_len,
+		&fractal->img.endian);
 	fractal_render(fractal, fractal->isjulia);
-	mlx_put_image_to_window(fractal->mlx_start, fractal->mlx_window, fractal->img.img_ptr, 0, 0);
+	mlx_put_image_to_window(fractal->mlx_start, fractal->mlx_window,
+		fractal->img.img_ptr, 0, 0);
 	mlx_mouse_hook(fractal->mlx_window, mouse_zoom_hook, fractal);
 	mlx_hook(fractal->mlx_window, 2, 1L << 0, close_esc_buttun, fractal);
 	mlx_hook(fractal->mlx_window, 17, 1L << 17, close_window_buttun, fractal);

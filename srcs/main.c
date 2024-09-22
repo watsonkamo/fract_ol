@@ -12,10 +12,10 @@
 
 #include "fractol.h"
 
-int is_double(char *str)
+int	is_double(char *str)
 {
-	int i;
-	int dot;
+	int	i;
+	int	dot;
 
 	i = 0;
 	dot = 0;
@@ -23,8 +23,7 @@ int is_double(char *str)
 		return (0);
 	if ((str[i] == '.') && (str[i + 1] == '\0'))
 		return (0);
-	if (str[i] == '-' || str[i] == '+')
-	{
+	if (str[i] == '-' || str[i] == '+') {
 		if (!ft_isdigit(str[i + 1]))
 			return (0);
 		i++;
@@ -49,7 +48,7 @@ int is_double(char *str)
 
 }
 
-int valid_arg(int argc, char **argv)
+int	valid_arg(int argc, char **argv)
 {
 	if (argc == 2 && !ft_memcmp(argv[1], "mandelbrot", 10))
 		return (1);
@@ -58,12 +57,13 @@ int valid_arg(int argc, char **argv)
 	return (0);
 }
 
-void fractal_init(t_fractal *fractal)
+void	fractal_init(t_fractal *fractal)
 {
 	fractal->mlx_start = mlx_init();
 	if (fractal->mlx_start == NULL)
 		malloc_error();
-	fractal->mlx_window = mlx_new_window(fractal->mlx_start, WIDTH, HEIGHT, "fractol");
+	fractal->mlx_window = mlx_new_window(fractal->mlx_start, WIDTH, HEIGHT,
+		"fractol");
 	fractal->zoom = 1.0;
 }
 /*----------------------------------------------------------------------------------------------------------*/
@@ -83,7 +83,8 @@ int	main(int ac, char **av)
 	}
 	else if (ac == 4 && !ft_memcmp(av[1], "julia", 6))
 	{
-		if (atof(av[2]) < -2.0 || atof(av[2]) > 2.0 || atof(av[3]) < -2.0 || atof(av[3]) > 2.0)
+		if (atof(av[2]) < -2.0 || atof(av[2]) > 2.0 || atof(av[3]) < -2.0
+			|| atof(av[3]) > 2.0)
 		{
 			ft_putstr_fd("Error\nInvalid julia set\n", 2);
 			return (0);
@@ -95,7 +96,8 @@ int	main(int ac, char **av)
 	}
 	else
 	{
-		ft_putstr_fd("Usage: ./fractol [mandelbrot/julia] [julia_re julia_im]\n", 2);
+		ft_putstr_fd("Usage: ./fractol [mandelbrot/julia] [julia_re julia_im]\n",
+			2);
 		return (0);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: emma <emma@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 05:19:47 by emma              #+#    #+#             */
-/*   Updated: 2024/09/23 06:51:11 by emma             ###   ########.fr       */
+/*   Updated: 2024/09/23 07:16:34 by emma             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,11 @@ void	render_pixel(t_fractal *fractal, int x, int y, int isjulia)
 
 	coords.isjulia = isjulia;
 	if (coords.isjulia == 1)
+	{
+		coords.julia_re = fractal->julia_re;
+		coords.julia_im = fractal->julia_im;
 		calculate_julia(x, y, fractal, &coords);
+	}
 	else
 	{
 		coords.z_re = 0;

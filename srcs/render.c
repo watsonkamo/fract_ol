@@ -48,16 +48,45 @@ int	define_color(int n)
 	return ((red << 16) | (green << 8) | blue);
 }
 
-void	fractal_render(t_fractal *fractal, int isjulia)
+void	calculate_julia_coords(int x, int y, t_fractal *fractal, double *z_re, double *z_im)
 {
-	int		x;
-	int		y;
+	*z_re = (x - WIDTH / 2.0) * 4.0 / WIDTH * fractal->zoom;
+	*z_im = (y - HEIGHT / 2.0) * 4.0 / HEIGHT * fractal->zoom;
+}
+
+void	calculate_mandelbrot_coords(int x, int y, t_fractal *fractal, double *julia_re, double *julia_im)
+{
+	*julia_re = (x - WIDTH / 2.0) * 4.0 / WIDTH * fractal->zoom;
+	*julia_im = (y - HEIGHT / 2.0) * 4.0 / HEIGHT * fractal->zoom;
+}
+
+void	render_pixel(t_fractal *fractal, int x, int y, int isjulia)
+{
 	double	z_re;
 	double	z_im;
-	int		n;
-	int		color;
 	double	julia_re;
 	double	julia_im;
+	int		n;
+	int		color;
+
+	if (isjulia == 1)
+		calculate_julia_coords(x, y, fractal, &z_re, &z_im);
+	else
+	{
+		z_re = 0;
+		z_im = 0;
+		calculate_mandelbrot_coords(x, y, fractal, &julia_re, &julia_im);
+	}
+	n = ft_fractal(z_re, z_im, julia_re, julia_im);
+	color = define_color(n);
+	*(int *)(fractal->img.addr + y * fractal->img.line_len + x
+			* (fractal->img.bits_per_pixel / 8)) = color;
+}
+
+void	fractal_render(t_fractal *fractal, int isjulia)
+{
+	int	y;
+	int	x;
 
 	y = 0;
 	while (y < HEIGHT)
@@ -65,22 +94,7 @@ void	fractal_render(t_fractal *fractal, int isjulia)
 		x = 0;
 		while (x < WIDTH)
 		{
-			if (isjulia == 1)
-			{
-				z_re = (x - WIDTH / 2.0) * 4.0 / WIDTH * fractal->zoom;
-				z_im = (y - HEIGHT / 2.0) * 4.0 / HEIGHT * fractal->zoom;
-			}
-			else
-			{
-				z_re = 0;
-				z_im = 0;
-				julia_re = (x - WIDTH / 2.0) * 4.0 / WIDTH * fractal->zoom;
-				julia_im = (y - HEIGHT / 2.0) * 4.0 / HEIGHT * fractal->zoom;
-			}
-			n = ft_fractal(z_re, z_im, julia_re, julia_im);
-			color = define_color(n);
-			*(int *)(fractal->img.addr + y * fractal->img.line_len + x
-					* (fractal->img.bits_per_pixel / 8)) = color;
+			render_pixel(fractal, x, y, isjulia);
 			++x;
 		}
 		++y;

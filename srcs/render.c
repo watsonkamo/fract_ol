@@ -6,7 +6,7 @@
 /*   By: emma <emma@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 04:00:10 by emma              #+#    #+#             */
-/*   Updated: 2024/09/23 04:51:12 by emma             ###   ########.fr       */
+/*   Updated: 2024/09/23 05:20:11 by emma             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,41 +46,6 @@ int	define_color(int n)
 	green = (int)(15 * (1 - t) * (1 - t) * t * t * 255);
 	blue = (int)(9 * (1 - t) * (1 - t) * (1 - t) * t * 255);
 	return ((red << 16) | (green << 8) | blue);
-}
-
-void	calculate_julia_coords(int x, int y, t_fractal *fractal, double *z_re, double *z_im)
-{
-	*z_re = (x - WIDTH / 2.0) * 4.0 / WIDTH * fractal->zoom;
-	*z_im = (y - HEIGHT / 2.0) * 4.0 / HEIGHT * fractal->zoom;
-}
-
-void	calculate_mandelbrot_coords(int x, int y, t_fractal *fractal, double *julia_re, double *julia_im)
-{
-	*julia_re = (x - WIDTH / 2.0) * 4.0 / WIDTH * fractal->zoom;
-	*julia_im = (y - HEIGHT / 2.0) * 4.0 / HEIGHT * fractal->zoom;
-}
-
-void	render_pixel(t_fractal *fractal, int x, int y, int isjulia)
-{
-	double	z_re;
-	double	z_im;
-	double	julia_re;
-	double	julia_im;
-	int		n;
-	int		color;
-
-	if (isjulia == 1)
-		calculate_julia_coords(x, y, fractal, &z_re, &z_im);
-	else
-	{
-		z_re = 0;
-		z_im = 0;
-		calculate_mandelbrot_coords(x, y, fractal, &julia_re, &julia_im);
-	}
-	n = ft_fractal(z_re, z_im, julia_re, julia_im);
-	color = define_color(n);
-	*(int *)(fractal->img.addr + y * fractal->img.line_len + x
-			* (fractal->img.bits_per_pixel / 8)) = color;
 }
 
 void	fractal_render(t_fractal *fractal, int isjulia)

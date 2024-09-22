@@ -6,11 +6,13 @@
 /*   By: emma <emma@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 02:37:58 by eshintan          #+#    #+#             */
-/*   Updated: 2024/05/08 15:12:37 by emma             ###   ########.fr       */
+/*   Updated: 2024/09/23 06:50:28 by emma             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+
+#define ERRMSG "Usage: ./fractol [mandelbrot/julia] [julia_re julia_im]\n"
 
 int	is_double(char *str)
 {
@@ -23,7 +25,8 @@ int	is_double(char *str)
 		return (0);
 	if ((str[i] == '.') && (str[i + 1] == '\0'))
 		return (0);
-	if (str[i] == '-' || str[i] == '+') {
+	if (str[i] == '-' || str[i] == '+')
+	{
 		if (!ft_isdigit(str[i + 1]))
 			return (0);
 		i++;
@@ -45,14 +48,14 @@ int	is_double(char *str)
 	if (dot > 1)
 		return (0);
 	return (1);
-
 }
 
 int	valid_arg(int argc, char **argv)
 {
 	if (argc == 2 && !ft_memcmp(argv[1], "mandelbrot", 10))
 		return (1);
-	if (argc == 4 && !ft_memcmp(argv[1], "julia", 5) && (is_double(argv[2])) && (is_double(argv[3])))
+	if (argc == 4 && !ft_memcmp(argv[1], "julia", 5)
+		&& (is_double(argv[2])) && (is_double(argv[3])))
 		return (1);
 	return (0);
 }
@@ -63,13 +66,13 @@ void	fractal_init(t_fractal *fractal)
 	if (fractal->mlx_start == NULL)
 		malloc_error();
 	fractal->mlx_window = mlx_new_window(fractal->mlx_start, WIDTH, HEIGHT,
-		"fractol");
+			"fractol");
 	fractal->zoom = 1.0;
 }
-/*----------------------------------------------------------------------------------------------------------*/
+
 int	main(int ac, char **av)
 {
-	t_fractal	fractal = {0};
+	t_fractal	fractal;
 
 	if (!valid_arg(ac, av))
 	{
@@ -96,8 +99,7 @@ int	main(int ac, char **av)
 	}
 	else
 	{
-		ft_putstr_fd("Usage: ./fractol [mandelbrot/julia] [julia_re julia_im]\n",
-			2);
+		ft_putstr_fd(ERRMSG, 2);
 		return (0);
 	}
 }

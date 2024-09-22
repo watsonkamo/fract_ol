@@ -6,7 +6,7 @@
 /*   By: emma <emma@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 03:11:33 by eshintan          #+#    #+#             */
-/*   Updated: 2024/05/06 00:43:45 by emma             ###   ########.fr       */
+/*   Updated: 2024/09/23 06:28:06 by emma             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,14 @@ typedef struct s_fractal
     double  c_im;
 }               t_fractal;
 
+typedef struct s_coords {
+    double  z_re;
+    double  z_im;
+    double  julia_re;
+    double  julia_im;
+    int     isjulia;
+}   t_coords;
+
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	ft_putstr_fd(char *s, int fd);
 size_t	ft_strlen(const char *str);
@@ -68,7 +76,11 @@ int     mouse_zoom_hook(int mouse, int x, int y, t_fractal *fractal);
 int     close_esc_buttun(int key, t_fractal *fractal);
 int     close_window_buttun(t_fractal *fractal);
 void    fractal_init(t_fractal *fractal);
-int valid_arg(int argc, char **argv);
+int 	valid_arg(int argc, char **argv);
+void	calculate_julia(int x, int y, t_fractal *fractal, t_coords *coords);
+void	calculate_mandelbrot(int x, int y, t_fractal *fractal, t_coords *coords);
+void	render_pixel(t_fractal *fractal, int x, int y, int isjulia);
+int	define_color(int n);
 int is_double(char *str);
 int ft_isdigit(int c);
 int	ft_memcmp(const void *s1, const void *s2, size_t n);

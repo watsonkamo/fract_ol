@@ -6,7 +6,7 @@
 /*   By: emma <emma@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 02:37:58 by eshintan          #+#    #+#             */
-/*   Updated: 2024/09/23 07:19:28 by emma             ###   ########.fr       */
+/*   Updated: 2024/09/23 07:29:26 by emma             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,33 +21,25 @@ int	is_double(char *str)
 
 	i = 0;
 	dot = 0;
-	if (str[i] == '\0')
+	if (str[i] == '\0' || ((str[i] == '.') && (str[i + 1] == '\0')))
 		return (0);
-	if ((str[i] == '.') && (str[i + 1] == '\0'))
+	if ((str[i] == '-' || str[i] == '+') && !ft_isdigit(str[i + 1]))
 		return (0);
 	if (str[i] == '-' || str[i] == '+')
-	{
-		if (!ft_isdigit(str[i + 1]))
-			return (0);
 		i++;
-	}
 	if (str[i] == '.')
 		return (0);
 	while (str[i])
 	{
+		if (str[i] == '.' && (!ft_isdigit(str[i + 1])))
+			return (0);
 		if (str[i] == '.')
-		{
-			if (!ft_isdigit(str[i + 1]))
-				return (0);
 			dot++;
-		}
 		if (!ft_isdigit(str[i]) && str[i] != '.')
 			return (0);
 		i++;
 	}
-	if (dot > 1)
-		return (0);
-	return (1);
+	return (!(dot > 1));
 }
 
 int	valid_arg(int argc, char **argv)
@@ -75,11 +67,8 @@ int	main(int ac, char **av)
 	t_fractal	fractal;
 
 	if (!valid_arg(ac, av))
-	{
 		ft_putstr_fd("Usage: error!\n", 2);
-		return (0);
-	}
-	if (ac == 2 && !ft_memcmp(av[1], "mandelbrot", 11))
+	else if (ac == 2 && !ft_memcmp(av[1], "mandelbrot", 11))
 	{
 		fractal_init(&fractal);
 		draw_fractal(&fractal, 0);
@@ -98,8 +87,6 @@ int	main(int ac, char **av)
 		draw_fractal(&fractal, 1);
 	}
 	else
-	{
 		ft_putstr_fd(ERRMSG, 2);
-		return (0);
-	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: emma <emma@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 04:00:10 by emma              #+#    #+#             */
-/*   Updated: 2024/05/01 16:59:16 by emma             ###   ########.fr       */
+/*   Updated: 2024/09/23 04:51:12 by emma             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,19 @@ int	ft_fractal(double z_re, double z_im, double c_re, double c_im)
 
 int	define_color(int n)
 {
+	double	t;
+	int		red;
+	int		green;
+	int		blue;
+
 	if (n == MAX_ITER)
 		return (0x000000);
-	double	t = (double)n / (double)MAX_ITER;
-	int		red = (int)(9 * (1 - t) * t * t * t * 255);
-	int		green = (int)(15 * (1 - t) * (1 - t) * t * t * 255);
-	int		blue = (int)(9 * (1 - t) * (1 - t) * (1 - t) * t * 255);
-
+	t = (double)n / (double)MAX_ITER;
+	red = (int)(9 * (1 - t) * t * t * t * 255);
+	green = (int)(15 * (1 - t) * (1 - t) * t * t * 255);
+	blue = (int)(9 * (1 - t) * (1 - t) * (1 - t) * t * 255);
 	return ((red << 16) | (green << 8) | blue);
 }
-
-
 
 void	fractal_render(t_fractal *fractal, int isjulia)
 {
@@ -77,7 +79,8 @@ void	fractal_render(t_fractal *fractal, int isjulia)
 			}
 			n = ft_fractal(z_re, z_im, julia_re, julia_im);
 			color = define_color(n);
-			*(int *)(fractal->img.addr + y * fractal->img.line_len + x * (fractal->img.bits_per_pixel / 8)) = color;
+			*(int *)(fractal->img.addr + y * fractal->img.line_len + x
+					* (fractal->img.bits_per_pixel / 8)) = color;
 			++x;
 		}
 		++y;
@@ -101,8 +104,8 @@ void	draw_fractal(t_fractal *fractal, int isjulia)
 		malloc_error();
 	}
 	fractal->img.addr = mlx_get_data_addr(fractal->img.img_ptr,
-		&fractal->img.bits_per_pixel, &fractal->img.line_len,
-		&fractal->img.endian);
+			&fractal->img.bits_per_pixel, &fractal->img.line_len,
+			&fractal->img.endian);
 	fractal_render(fractal, fractal->isjulia);
 	mlx_put_image_to_window(fractal->mlx_start, fractal->mlx_window,
 		fractal->img.img_ptr, 0, 0);
